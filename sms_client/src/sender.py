@@ -24,9 +24,6 @@ class Sender:
     def _send_http_request(self):
         with socket.create_connection((self.request.host, self.request.port)) as sock:
             sock.sendall(self.request.to_bytes())
-
-            print("REQUEST", self.request.to_bytes())
-
             response_data = sock.recv(4096)
         return HttpResponse.from_bytes(response_data)
 
