@@ -1,10 +1,10 @@
 import base64
 
+
 class HttpRequest:
     """
     Класс, реализующий HTTP-запрос.
     """
-
     def __init__(self, method: str, path: str, headers: dict, body: str):
         self.method = method
         self.path = path
@@ -20,6 +20,7 @@ class HttpRequest:
         
         # .encode('cp1251') - из-за проблем с кириллицей
         return (request_line + headers + "\r\n" + self.body).encode('cp1251')
+
 
 class PostHttpRequest(HttpRequest):
     """
