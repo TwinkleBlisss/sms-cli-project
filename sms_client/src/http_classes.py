@@ -1,3 +1,4 @@
+import json
 import base64
 
 
@@ -18,8 +19,7 @@ class HttpRequest:
         request_line = f"{self.method} {self.path} HTTP/1.1\r\n"
         headers = "".join(f"{key}: {value}\r\n" for key, value in self.headers.items())
         
-        # .encode('cp1251') - из-за проблем с кириллицей
-        return (request_line + headers + "\r\n" + self.body).encode('cp1251')
+        return (request_line + headers + "\r\n" + self.body).encode()
 
 
 class PostHttpRequest(HttpRequest):
@@ -51,7 +51,11 @@ class PostHttpRequest(HttpRequest):
 
     @staticmethod
     def _create_sms_body(sender: str, recipient: str, message: str) -> str:
-        return f'{{"sender": "{sender}", "recipient": "{recipient}", "message": "{message}"}}'
+        return json.dumps({
+            "sender": sender,
+            "recipient": recipient,
+            "message": message
+        })
 
 
 class HttpResponse:
